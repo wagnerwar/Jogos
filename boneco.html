@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Testes com CANVAS</title> 
+	<script type="text/javascript" src="draw.js"></script>
+	<script type="text/javascript" src="Boneco.js"></script>
+	<script language="javascript">
+	function debuga(bY,oY){
+		document.getElementById('bY').innerHTML = bY;
+		document.getElementById('oY').innerHTML = oY;
+	}
+	window.onload = function(){
+		drawQuadrada(0,325,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height-310,'#8B4513');
+		//Desenhando o obstáculo
+		drawQuadrada(400,265,50,60,"#000000");
+		var boneco = new Boneco("#2F4F4F");
+		boneco.constroe(10,320);
+		//Construindo o adversário
+		var inimigo = new Boneco("#FF0000");
+		inimigo.constroe(690,320);
+		
+		document.onkeydown = function(e){
+				//Associando o evento de pular ao clique no botão barra de espaço
+				
+			if(e.which == 32){
+				if(boneco.dY == 320){
+					var pulando = setInterval(function(){
+							limpaTela();
+							drawQuadrada(0,325,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height-310,'#8B4513');
+							//Desenhando o obstáculo
+							//Construindo o objeto Obstaculo, com rand de valore de X  e Y
+							obstaculos = new Array();// Array que armazena os objetos Obstaculo do sistema
+							//drawQuadrada(400,265,50,60,"#000000");
+							var obstaculo = new Obstaculo(400,265,50,60,"#000000");
+							obstaculos[0] = obstaculo;		
+							boneco.pular();
+							boneco.constroe(boneco.dX,boneco.dY);
+							inimigo.constroe(inimigo.dX,inimigo.dY);
+						},100);
+					
+					setTimeout(function(){
+						clearInterval(pulando);
+					},900);
+				}
+				//Andando para a direita
+			}else if(e.which == 39){
+						limpaTela();
+						drawQuadrada(0,325,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height-310,'#8B4513');
+						//Desenhando o obstáculo
+						//Construindo o objeto Obstaculo, com rand de valore de X  e Y
+						obstaculos = new Array();// Array que armazena os objetos Obstaculo do sistema
+						//drawQuadrada(400,265,50,60,"#000000");
+						var obstaculo = new Obstaculo(400,265,50,60,"#000000");
+						obstaculos[0] = obstaculo;
+						boneco.andar(20,"d",obstaculos);
+						boneco.constroe(boneco.dX,boneco.dY);
+						inimigo.constroe(inimigo.dX,inimigo.dY);
+				//Andando para a esquerda
+				
+			}else if(e.which == 37){
+						limpaTela();
+						drawQuadrada(0,325,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height-310,'#8B4513');
+						//Desenhando o obstáculo
+						//Construindo o objeto Obstaculo, com rand de valore de X  e Y
+						obstaculos = new Array();// Array que armazena os objetos Obstaculo do sistema
+						//drawQuadrada(400,265,50,60,"#000000");
+						var obstaculo = new Obstaculo(400,265,50,60,"#000000");
+						obstaculos[0] = obstaculo;
+						boneco.andar(20,"e",obstaculos);
+						
+						boneco.constroe(boneco.dX,boneco.dY);
+						inimigo.constroe(inimigo.dX,inimigo.dY);
+			}
+		}
+		
+		//Á cada 10 milisegundos, o adversário, com base no posicionamento do herói, irá de encontro ao mesmo.
+		setInterval(function(){
+			if(boneco.dX < inimigo.dX){
+				inimigo.s = "e";
+			}else{
+				inimigo.s = "d";
+			}
+			limpaTela();
+			drawQuadrada(0,325,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height-310,'#8B4513');
+			obstaculos = new Array();// Array que armazena os objetos Obstaculo do sistema
+			var obstaculo = new Obstaculo(400,265,50,60,"#000000");
+			obstaculos[0] = obstaculo;
+			boneco.constroe(boneco.dX,boneco.dY);
+			inimigo.andar(10,inimigo.s,null);
+			inimigo.constroe(inimigo.dX,inimigo.dY);
+			if((boneco.dX == inimigo.dX) && (boneco.dY == inimigo.dY)){
+				alert("CUCA te pegou");
+				location.href="boneco.html";
+			}
+			// Se coordenada de dX for maior do que 790, passou de fase
+			if(boneco.dX > 790){
+				alert("Parabéns");
+				location.href="boneco.html";
+			}
+		},100);
+	}
+	</script>
+	</head> 
+	<body> 
+	<!-- Atributos data-role servem como identificadores HTML5 -->
+		<h1>Controlando um boneco com CANVAS</h1>
+		<canvas width='800' height='600' id='container' style='border: 1px solid #000;'>
+			<h1>Seu navegador não suporta HTML5</h1>
+		</canvas>
+		
+	</body>
+</html>
