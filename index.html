@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Testes com CANVAS</title> 
+	<script type="text/javascript" src="draw.js"></script>
+	<script language="javascript">
+		
+		window.onload = function(){
+			
+			//Desenho de um corpo humano
+			drawRosto(165,50,25);
+			//Pescoço
+			drawQuadrada(150,70,30,20,"#FFE4B5");
+			//Barriga
+			drawQuadrada(125,90,80,120,"#2F4F4F");
+			//Braço direito
+			drawQuadrada(80,100,45,30,"#2F4F4F");
+			//Braço esquerdo
+			drawQuadrada(205,100,45,30,"#2F4F4F");
+			//Perna direita
+			drawQuadrada(130,210,30,100,"#000000");
+			//Perna esquerda
+			drawQuadrada(170,210,30,100,"#000000");
+			//Pé direito
+			drawSapato(170,310,60,30,"#A52A2A");
+			//Pé esquerdo
+			drawSapato(130,310,60,30,"#A52A2A");
+			//Mão direita
+			drawMao(75,115,20,"#F0E68C");
+			//Mão esquerda
+			drawMao(255,115,20,"#F0E68C");
+			//Chão
+			drawQuadrada(0,325,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height-310,'#8B4513');
+			//Relógio
+			//drawRelogio(300,50,40,"#0000FF");
+			//Desenhando o ponteiro
+		//	var contexto = carregaContexto(document.getElementsByTagName('canvas')[0].id);
+			var ponteiro = {
+				x: 300,
+				y: 50,
+				r: 40,
+				dx: 300, //Coordenada  x do posicionamento do ponteiro
+				dy: 50-(40-10),	// Coordenada y do posicionamento do ponteiro
+				sY: 1, // Sentido da coordenada Y
+				sX: 1 // Sentido da coordenada X
+			}
+	setInterval(function(){
+			drawRelogio(300,50,40,"#0000FF");
+			var contexto = carregaContexto(document.getElementsByTagName('canvas')[0].id);
+			var x = ponteiro.x;
+			var y = ponteiro.y;
+			var r = ponteiro.r;
+			if(contexto){
+			
+			
+			var maxRX = x+(r-10);
+			var maxRY = y+(r-10);
+			var minRX = x-(r-10);
+			var minRY = y-(r-10);
+			if(ponteiro.dx == maxRX){
+				ponteiro.sX = -1;
+			}else if(ponteiro.dx  ==  minRX){
+				ponteiro.sX = 1;
+			}
+			
+			if(ponteiro.sX == 1){
+				ponteiro.dx += 2;
+			}else{
+				ponteiro.dx -= 2;
+			}
+			
+			if(ponteiro.dy == maxRY){
+				ponteiro.sY = -1; 
+			}else if(ponteiro.dy == minRY){
+				ponteiro.sY = 1;
+			}
+			if(ponteiro.sY == 1){
+				ponteiro.dy += 2;
+			}else{
+				ponteiro.dy -= 2;
+			}
+				contexto.beginPath();
+				contexto.strokeStyle = "#FFFFFF";
+				contexto.moveTo(x,r);
+				contexto.lineTo(ponteiro.dx,ponteiro.dy);
+				contexto.stroke();
+				}
+				//document.getElementById('labelX').innerHTML = ponteiro.dx;
+				//document.getElementById('labelY').innerHTML = ponteiro.dy;
+			},30);
+			
+		}
+		</script>
+	</head> 
+<body> 
+<!-- Atributos data-role servem como identificadores HTML5 -->
+	<h1>Desenhando no CANVAS</h1>
+	<canvas width='400' height='400' id='container' style='border: 1px solid #000;'>
+		<h1>Seu navegador não suporta HTML5</h1>
+	</canvas>
+	
+</body>
+</html>

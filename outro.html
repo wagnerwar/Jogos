@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Testes com CANVAS</title> 
+	<script type="text/javascript" src="draw.js"></script>
+	<script language="javascript">
+		
+		window.onload = function(){
+				desenhoCorpo();
+				movePe(170,210,30,30,170,310);
+				moveBraco(265,115,45,205,100);
+				var contexto = carregaContexto(document.getElementsByTagName('canvas')[0].id);
+				document.getElementById('container').onmousemove = function(e){
+						/*
+							Função abaixo é executada para  que seja apagado o último frame
+						*/
+						limpaTela();
+						var x = e.pageX - this.offsetLeft;
+						var y = e.pageY - this.offsetTop;
+						//document.getElementById('labelX').innerHTML = x;
+						//document.getElementById('labelY').innerHTML = y;
+						desenhoCorpo();
+										
+						movePe(170,210,30,30,170,310);
+						moveBraco(x,y,45,205,100);
+						
+			}
+				//Criar manipulação de evento
+				
+				document.onkeypress = function(e){
+					
+					
+					if(e.which == 32){
+						limpaTela();
+						desenhoCorpo();
+						movePe(170,210,30,30,190,290);
+						moveBraco(265,115,45,205,100);
+					}else{
+						limpaTela();
+						desenhoCorpo();
+						movePe(170,210,30,30,170,310);
+						moveBraco(265,115,45,205,100);
+						}
+					}
+				}
+				
+		
+		</script>
+	</head> 
+	<body> 
+	<!-- Atributos data-role servem como identificadores HTML5 -->
+		<h1>Desenhando no CANVAS</h1>
+		<canvas width='400' height='600' id='container' style='border: 1px solid #000;'>
+			<h1>Seu navegador não suporta HTML5</h1>
+		</canvas>
+	</body>
+</html>

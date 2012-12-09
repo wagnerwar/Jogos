@@ -1,0 +1,8 @@
+enemy_andando = 124 0 36 64
+enemy_andando1 = 106 44 16 64
+enemy_chutando = 62 44 42 64
+enemy_morto = 0 62 60 39
+enemy_morto1 = 62 0 60 42
+enemy_parado = 199 0 16 64
+enemy_pulando = 0 0 60 60
+enemy_socando = 162 0 35 64

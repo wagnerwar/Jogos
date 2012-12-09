@@ -1,0 +1,146 @@
+﻿<!DOCTYPE html> 
+<html> 
+<head> 
+	<title>Testes com CANVAS</title> 
+	<script src="http://code.createjs.com/easeljs-0.5.0.min.js"></script>
+	<!-- <script src="http://code.createjs.com/tweenjs-0.2.0.min.js"></script> --> 
+	<script type="text/javascript" src="draw.js"></script>
+	<script type="text/javascript" src="Boneco.js"></script>
+	<script type="text/javascript" src="Heroi.js"></script>
+
+	<script language="javascript">
+	/*
+		Declaração de variáveis
+	*/
+	var imagensEnemy = new Array();
+	var stage;
+	var canvas;
+	var w;
+	var h;
+	var fim = (w-10); // Posição mínima de X
+	var inicio = 30; // Posição maxima de X
+	var heroi;
+	
+	function startGame(){
+	
+			var bitmap = new createjs.Bitmap(heroi.img);
+			bitmap.x = heroi.dX;
+			bitmap.y = heroi.dY;
+			stage.addChild(bitmap);
+		//	alert(heroi.dY);
+			createjs.Ticker.addListener(window);
+			createjs.Ticker.useRAF = true;
+			createjs.Ticker.setFPS(60);
+			stage.update();
+		}
+	
+
+	function init(){
+			canvas = document.getElementById("container");
+			w = canvas.width;
+			h = canvas.height;
+			stage = new createjs.Stage(canvas);
+			heroi = new Heroi();
+			if(heroi.carregaImagens()){
+				heroi.constroe(200,(h-100));
+				heroi.setaEstado("parado");
+				startGame();
+			}
+			//Carregando as imagens do herói
+			
+			
+			//Carregando imagens do ENEMY
+			/*
+				enemy_parado
+				enemy_andando
+				enemy_andando1
+				enemy_socando
+				enemy_pulando
+				enemy_chutando
+				enemy_morto
+				enemy_morto1
+			*/
+			/*var imgsEnemy = new Array("enemy_parado","enemy_andando","enemy_andando1","enemy_socando","enemy_pulando","enemy_chutando","enemy_morto","enemy_morto1");
+			for(i=0;i<imgsEnemy.length;i++){
+				var imagem = new Image();
+				imagem.src = "/html5/sprites/" + imgsEnemy[i] + ".png";
+				imagem.onload = onHandleImagens;
+				imagem.onerror = onHandleError;
+				imagensEnemy[i] = imagem;
+				
+			}*/
+		
+	}
+	/*
+		função abaixo gerencia o clique nos teclados
+	*/
+	document.onkeydown = function(e){
+		manageKeyEvent(e);
+	}
+	
+	document.onkeyup = function(e){
+		manageKeyUp(e);
+	}
+	
+	function manageKeyEvent(e){
+		switch(e.which){
+			case 37: // Indo para a esquerda
+				if(heroi.dX <= inicio){
+				heroi.setarSentido("d");
+				}else{
+				heroi.setarSentido("e");
+				}
+				heroi.andar();
+				heroi.constroe(heroi.dX,heroi.dY);
+				break;
+			case 39: // Indo para a direita
+				if(heroi.dX >=  fim){
+				heroi.setarSentido("e");
+				}else{
+				heroi.setarSentido("d");
+				}
+				heroi.andar();
+				heroi.constroe(heroi.dX,heroi.dY);
+				break;
+				
+			case 32: //Clicando em barra de espaço
+				/*
+					Quando usuário pula
+					O estado pulando do herói fica como PULANDO
+					Neste caso, á cada frame, enquanto não for até a altura máxima, sua coordenada Y é incrementada á uma velocidade de 5 px por frame.
+					Quando chega á altura máxima, então sua coordenada Y é decrementada até atingir a posição inicial
+				*/
+				heroi.pular(heroi.dY);
+				heroi.constroe(heroi.dX,heroi.dY);
+
+			break;
+		}
+	}
+	
+	function manageKeyUp(e){
+		if(e.which == 37 || e.which == 39){
+		heroi.setaEstado("parado");
+		}
+	}
+	
+	
+	function tick(){
+			stage.removeAllChildren();
+			var bitmap = new createjs.Bitmap(heroi.img);
+			heroi.checaStatusPulo();
+			bitmap.x = heroi.dX;
+			bitmap.y = heroi.dY;
+			stage.addChild(bitmap);
+			stage.update();
+	}
+	</script>
+	</head> 
+	<body onload= "init();"> 
+	<!-- Atributos data-role servem como identificadores HTML5 -->
+		<h1>Teste com easel</h1>
+		<canvas width='800' height='600' id='container' style='border: 1px solid #000;'>
+			<h1>Seu navegador não suporta HTML5</h1>
+		</canvas>
+		
+	</body>
+</html>
