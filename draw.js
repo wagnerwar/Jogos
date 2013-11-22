@@ -1,4 +1,8 @@
-﻿function carregaContexto(id){
+﻿
+/*Toda vez que é  executado algo na tag CANVAS, deve-se instanciar o objeto especificado na variável context abaixo
+ * pertencente á própria tag CANVAS. 
+ * */
+function carregaContexto(id){
 			var elemento = document.getElementById(id);
 			var context = elemento.getContext("2d");
 			if(context){
@@ -7,7 +11,7 @@
 			return false;
 			}
 		}
-	//Função abaixo para desenhar um triângulo simples	
+	/* Função abaixo para desenhar um triângulo simples	*/
 function drawTriangulo(x,y,tamX,tamY){
 			var contexto = carregaContexto(document.getElementsByTagName('canvas')[0].id);
 			x = parseInt(x);
@@ -22,7 +26,7 @@ function drawTriangulo(x,y,tamX,tamY){
 				contexto.fill();
 			}
 		}
-		//Função abaixo necessário para desenhar rostos
+/* Função abaixo necessário para desenhar rostos */
 function drawRosto(x,y,r){
 	x = parseInt(x);
 	y = parseInt(y);
@@ -47,7 +51,7 @@ function drawRosto(x,y,r){
 		contexto.stroke();
 	}
 }
-//Função para se desenhar qualquer forma quadrada
+/* Função para se desenhar qualquer forma quadrada */
 function drawQuadrada(x,y,tamX,tamY,cor){
 	x = parseInt(x);
 	y = parseInt(y);
@@ -63,7 +67,7 @@ function drawQuadrada(x,y,tamX,tamY,cor){
 	}
 }
 
-//Função abaixo desenha um sapato
+/* Função abaixo desenha um sapato */
 function drawSapato(x,y,tamX,tamY,cor){
 	x = parseInt(x);
 	y = parseInt(y);
@@ -83,6 +87,7 @@ function drawSapato(x,y,tamX,tamY,cor){
 	}
 }
 
+/* Função para desenhar mãos */
 function drawMao(x,y,r,cor){
 var contexto = carregaContexto(document.getElementsByTagName('canvas')[0].id);
 	if(contexto){
@@ -100,7 +105,7 @@ var contexto = carregaContexto(document.getElementsByTagName('canvas')[0].id);
 	}
 }
 
-//Desenhar o relógio
+/* Função para desenhar relógio*/
 function drawRelogio(x,y,r,cor){
 	x = parseInt(x);
 	y = parseInt(y);
@@ -124,7 +129,7 @@ function drawRelogio(x,y,r,cor){
 
 }
 
-//Função abaixo move o braço do boneco com base no clique na mão do mesmo
+/*Função abaixo move o braço do boneco com base no clique na mão do mesmo */
 
 function moveBraco(x,y,tamB,bX,bY){
 	var contexto = carregaContexto(document.getElementsByTagName('canvas')[0].id);
@@ -160,7 +165,7 @@ function moveBraco(x,y,tamB,bX,bY){
 		drawMao(cX,cY,20,"#F0E68C");
 	}
 }
-
+/*Desenhando o braço, para que sei posicionamento esteja relativo ao posicionamento da mão*/
 function drawQuadradaComRotacao(x,y,cX,cY,tamB,cor){
 	x = parseInt(x); //Coordenadas do braço
 	y = parseInt(y);
@@ -180,7 +185,7 @@ function drawQuadradaComRotacao(x,y,cX,cY,tamB,cor){
 	}
 }
 
-
+/*Desenhando um corpo inteiro*/
 function desenhoCorpo(){
 	var contexto = carregaContexto(document.getElementsByTagName('canvas')[0].id);
 	if(contexto){
@@ -217,6 +222,7 @@ function desenhoCorpo(){
 	
 }
 
+/* Função para mover o pé */
 function movePe(x,y,tamX,tamY,cX,cY){
 	var contexto = carregaContexto(document.getElementsByTagName('canvas')[0].id);
 	if(contexto){
@@ -231,7 +237,7 @@ function movePe(x,y,tamX,tamY,cX,cY){
 		
 	}
 }
-
+/*Limpar a tela inteira. Executada quando se encerra o jogo, ou para que tudo se inicie do zero*/
 function limpaTela(){
 
 	drawQuadrada(0,0,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height,'#FFFFFF');

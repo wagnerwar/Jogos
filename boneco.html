@@ -5,25 +5,34 @@
 	<script type="text/javascript" src="draw.js"></script>
 	<script type="text/javascript" src="Boneco.js"></script>
 	<script language="javascript">
-	function debuga(bY,oY){
-		document.getElementById('bY').innerHTML = bY;
-		document.getElementById('oY').innerHTML = oY;
-	}
+	
+	/*Função só é executada depois que a página é carregada*/
 	window.onload = function(){
 		drawQuadrada(0,325,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height-310,'#8B4513');
 		//Desenhando o obstáculo
 		drawQuadrada(400,265,50,60,"#000000");
+		
+		/*Instanciando o herói*/
 		var boneco = new Boneco("#2F4F4F");
 		boneco.constroe(10,320);
-		//Construindo o adversário
+		
+		/*Construindo o adversário */
 		var inimigo = new Boneco("#FF0000");
 		inimigo.constroe(690,320);
 		
+		/*Gerenciando eventos de clique*/
 		document.onkeydown = function(e){
-				//Associando o evento de pular ao clique no botão barra de espaço
 				
+			/*Associando o evento de pular ao clique no botão barra de espaço
+			ESte botão faz o herói pular
+			*/
 			if(e.which == 32){
 				if(boneco.dY == 320){
+					/*A função setInterval determina que uma determinada função será executada em um intervalo de N segundos
+						No nosso caso, á cada 100 segundos é executada a função associada
+						Síntaxe:
+							setInterval(function(){ Qualquer coisa aqui}, tempo);
+					*/
 					var pulando = setInterval(function(){
 							limpaTela();
 							drawQuadrada(0,325,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height-310,'#8B4513');
@@ -37,12 +46,15 @@
 							boneco.constroe(boneco.dX,boneco.dY);
 							inimigo.constroe(inimigo.dX,inimigo.dY);
 						},100);
-					
+					/*setTimeout é uma função que é executada somente uma vez, após decorrido o intervalo especificado no segundo parâmetro
+					É semelhante ao setInterval, porém, este só é executado uma vez
+					No nosso caso, é utilizado para que a função acima no setInterval só seja executada 9 vezes (Através da função clearInterval especificada no arquivo draw.js)*/
 					setTimeout(function(){
 						clearInterval(pulando);
 					},900);
 				}
-				//Andando para a direita
+				
+			/*Andando para a direita*/
 			}else if(e.which == 39){
 						limpaTela();
 						drawQuadrada(0,325,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height-310,'#8B4513');
@@ -55,8 +67,7 @@
 						boneco.andar(20,"d",obstaculos);
 						boneco.constroe(boneco.dX,boneco.dY);
 						inimigo.constroe(inimigo.dX,inimigo.dY);
-				//Andando para a esquerda
-				
+			/*Andando para a esquerda */
 			}else if(e.which == 37){
 						limpaTela();
 						drawQuadrada(0,325,document.getElementsByTagName('canvas')[0].width,document.getElementsByTagName('canvas')[0].height-310,'#8B4513');

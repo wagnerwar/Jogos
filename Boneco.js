@@ -13,7 +13,9 @@ function Boneco(cor){
 	this.sY = "C"; //Sentido horizontal do objeto
 	this.maxY = 0;
 }
-
+/*Gambiarra abaixo para associar o método constroe á classe Boneco
+ * Forma alternativa de definir métodos á uma classe
+ * */
 Boneco.prototype.constroe = function(x,y){
 	this.dX = x;
 	this.dY = y;
