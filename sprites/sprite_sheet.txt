@@ -1,5 +1,0 @@
-enemy_andando = 44 0 36 64
-enemy_andando1 = 119 0 16 64
-enemy_chutando = 0 0 42 64
-enemy_parado = 137 0 16 64
-enemy_socando = 82 0 35 64

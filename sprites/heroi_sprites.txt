@@ -1,7 +1,0 @@
-heroi_andando1 = 52 110 38 105
-heroi_andando2 = 162 62 34 105
-heroi_morrendo2 = 122 0 104 60
-heroi_morrendo22 = 0 0 120 108
-heroi_parado = 92 110 27 104
-heroi_pulando = 122 62 38 105
-heroi_socando = 0 110 50 104
