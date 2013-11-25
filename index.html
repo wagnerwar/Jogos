@@ -44,6 +44,21 @@
 				sY: 1, // Sentido da coordenada Y
 				sX: 1 // Sentido da coordenada X
 			}
+			/*
+				á cada 30 milisegundos, estou redefinindo as coordenadas do ponteiro do relógio.
+				
+				Observe que, o meio do relógio, representado pela origem do ponteiro, é representado pelas coordenadas x e y do ponteiro.
+				
+				Sendo assim, a outra ponta do relógio, que indica as horas, é representado pelos atributos dx e dy do ponteiro.
+				
+				Á cada intervalo de tempo, estes atributos (dx e dy) são alterados, para criar a animação de movimento
+				
+				Basicamente, o que faço com cada é um mesmo esquema para tratar os limites horizontal e vertical. Por exemplo:
+					Incremento o valor de dx até atingir o valor de maxRX.
+					Atingido este valor, decremento o valor de dx até o mesmo atingir o valor de minRX, e assim por diante.
+					Dou o mesmo tratamento para dy, que é do posicionamento vertical do indicador de horas.
+					Executado em conjunto (dx ,dy), dá-se a impressão de movimento do indicador de horas.
+			*/
 	setInterval(function(){
 			drawRelogio(300,50,40,"#0000FF");
 			var contexto = carregaContexto(document.getElementsByTagName('canvas')[0].id);
@@ -51,34 +66,32 @@
 			var y = ponteiro.y;
 			var r = ponteiro.r;
 			if(contexto){
-			
-			
-			var maxRX = x+(r-10);
-			var maxRY = y+(r-10);
-			var minRX = x-(r-10);
-			var minRY = y-(r-10);
-			if(ponteiro.dx == maxRX){
-				ponteiro.sX = -1;
-			}else if(ponteiro.dx  ==  minRX){
-				ponteiro.sX = 1;
-			}
-			
-			if(ponteiro.sX == 1){
-				ponteiro.dx += 2;
-			}else{
-				ponteiro.dx -= 2;
-			}
-			
-			if(ponteiro.dy == maxRY){
-				ponteiro.sY = -1; 
-			}else if(ponteiro.dy == minRY){
-				ponteiro.sY = 1;
-			}
-			if(ponteiro.sY == 1){
-				ponteiro.dy += 2;
-			}else{
-				ponteiro.dy -= 2;
-			}
+				var maxRX = x+(r-10);
+				var maxRY = y+(r-10);
+				var minRX = x-(r-10);
+				var minRY = y-(r-10);
+				if(ponteiro.dx == maxRX){
+					ponteiro.sX = -1;
+				}else if(ponteiro.dx  ==  minRX){
+					ponteiro.sX = 1;
+				}
+				
+				if(ponteiro.sX == 1){
+					ponteiro.dx += 2;
+				}else{
+					ponteiro.dx -= 2;
+				}
+				
+				if(ponteiro.dy == maxRY){
+					ponteiro.sY = -1; 
+				}else if(ponteiro.dy == minRY){
+					ponteiro.sY = 1;
+				}
+				if(ponteiro.sY == 1){
+					ponteiro.dy += 2;
+				}else{
+					ponteiro.dy -= 2;
+				}
 				contexto.beginPath();
 				contexto.strokeStyle = "#FFFFFF";
 				contexto.moveTo(x,r);
