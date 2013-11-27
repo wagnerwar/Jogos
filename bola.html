@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Exemplo com bola em movimento</title>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+	<script type="text/javascript">
+	 	window.onload =  function(){
+				/*
+					Inicialmente, é feita uma instanciação do objeto contexto, que é responsável pela animação
+				*/
+				
+				var elemento = document.getElementById("cont");
+				var contexto = elemento.getContext("2d");
+				if(contexto){
+					/*Declaração da classe Bola*/
+					var Bola = function(x,y,r,vX,vY){
+						this.x = x;
+						this.y = y;
+						this.vX = vX;
+						this.vY = vY;
+						this.r = r;
+						
+						this.update = function(){
+							this.x += this.vX;
+							this.y += this.vY;
+						};
+						
+						this.checaColisao = function(){
+							if((this.x + this.r) >= larguraTela){
+								this.vX *= -1;
+							}else if((this.x - this.r) < larguraTela){
+								this.vX *= -1;
+							}
+							if((this.y + this.r) >= alturaTela){
+								this.vY *= -1;
+							}else if((this.y - this.r) < alturaTela){
+								this.vY *= -1;
+							}	
+						}
+					}
+					var alturaTela = elemento.height;
+					var larguraTela = elemento.width;
+					var x = Math.floor((Math.random()*larguraTela)+1);	
+					var y = Math.floor((Math.random()*alturaTela)+1);
+					var r = 10;
+					var vX = 5;
+					var vY = 5;
+					var bola = new Bola(x,y,r,vX,vY);
+					desenha();
+	
+					//animate();
+				}else{
+					
+				}
+			
+			function desenha(){
+				contexto.fillStyle="#FF0000";
+				contexto.beginPath();
+				contexto.moveTo(bola.x,bola.y);
+				contexto.arc(bola.x,bola.y,bola.r,0,Math.PI*2);
+				contexto.closePath();
+				contexto.fill();
+			}
+	 	}
+		/*
+		function animate(){
+			setTimeout(animate,30);
+		}*/
+		
+
+	</script>
+	<style>
+		body,html{
+			background-color: #000000;
+		}
+		h1{
+			color: #FFFFFF;
+		}
+		canvas{
+			background-color: #FFFFFF;
+		}
+	</style>
+</head>
+<body>
+	<h1>TESTES</h1>
+	<canvas id = "cont" width="600" height="600">Seu navegador não suporta canvas</canvas>
+</body>
+</html>
