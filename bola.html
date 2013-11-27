@@ -20,7 +20,9 @@
 						this.vX = vX;
 						this.vY = vY;
 						this.r = r;
-						
+						this.dX = x;
+						this.dY = y;
+						this.mover = 0;
 						
 						this.update = function(){
 							this.x += this.vX;
@@ -39,6 +41,20 @@
 								this.vY *= -1;
 							}	
 						}
+						
+						this.setaDestinoX = function(x){
+							this.dX = x;
+						}
+						
+
+						this.setaDestinoY = function(y){
+							this.dY = y;
+						}
+						
+						this.checaDestino = function(){
+			
+							
+						}
 					}
 					
 					var alturaTela = elemento.height;
@@ -49,6 +65,7 @@
 					var vX = 5;
 					var vY = 5;
 					var bola = new Bola(x,y,r,vX,vY);
+					var eu = new Bola(Math.floor((Math.random()*larguraTela)+1),Math.floor((Math.random()*alturaTela)+1),r,vX,vY);
 					desenha();
 					animate();
 				}else{
@@ -63,13 +80,36 @@
 				contexto.arc(bola.x,bola.y,bola.r,0,Math.PI*2);
 				contexto.closePath();
 				contexto.fill();
+				
+				contexto.fillStyle="#0000FF";
+				contexto.beginPath();
+				contexto.moveTo(eu.x,eu.y);
+				contexto.arc(eu.x,eu.y,eu.r,0,Math.PI*2);
+				contexto.closePath();
+				contexto.fill();
 			}
 			
 			function animate(){
 				bola.checaColisao();
 				bola.update();
+				
+				
+				eu.checaColisao();
+				//eu.checaDestino();
+				eu.update();
+				
 				desenha();
 				setTimeout(animate,30);
+			}
+			
+			elemento.onclick = function(e){
+				var pX;
+				var pY;
+				pX = e.pageX - this.offsetLeft;
+				pY = e.pageY - this.offsetTop;
+				eu.setaDestinoX(pX);
+				eu.setaDestinoY(pY);
+				eu.mover = 1;
 			}
 			
 	 	}
