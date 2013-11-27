@@ -65,6 +65,11 @@
 					var vY = 5;
 					var bola = new Bola(x,y,r,vX,vY);
 					var eu = new Bola(Math.floor((Math.random()*larguraTela)+1),Math.floor((Math.random()*alturaTela)+1),r,vX,vY);
+					
+					var bolas  = new Array();
+					bolas.push(bola);
+					bolas.push(eu);
+					
 					desenha();
 					animate();
 				}else{
