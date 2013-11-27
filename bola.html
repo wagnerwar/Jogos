@@ -5,9 +5,10 @@
 	<title>Exemplo com bola em movimento</title>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript">
-	 	window.onload =  function(){
+		/*Logo quando a página é carregada, é executada a função abaixo*/
+		window.onload =  function(){
 				/*
-					Inicialmente, é feita uma instanciação do objeto contexto, que é responsável pela animação
+					Inicialmente, é feita uma instanciação do objeto contexto, que é responsável pela animação em CANVAS
 				*/
 				
 				var elemento = document.getElementById("cont");
@@ -21,7 +22,7 @@
 						this.vY = vY;
 						this.r = r;
 						
-						this.update = function(){
+						/*this.update = function(){
 							this.x += this.vX;
 							this.y += this.vY;
 						};
@@ -37,7 +38,7 @@
 							}else if((this.y - this.r) < alturaTela){
 								this.vY *= -1;
 							}	
-						}
+						}*/
 					}
 					var alturaTela = elemento.height;
 					var larguraTela = elemento.width;
