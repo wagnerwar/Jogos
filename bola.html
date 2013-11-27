@@ -22,6 +22,7 @@
 						this.r = r;
 						this.dX = 0;
 						this.dY = 0;
+						this.mover = 0;
 						
 						this.update = function(){
 							this.x += this.vX;
@@ -51,8 +52,24 @@
 						}
 						
 						this.checaDestino = function(){
-							
-							
+							if(this.mover == 1)
+							{
+								/*Tratando linha horizontal*/
+								if(this.x < this.dX){
+
+								}
+								if(this.x == this.dX){
+									alert("TOU AQUI");
+									this.mover = 0;
+								}
+
+								if(this.x > this.dX){
+									
+								}
+
+								
+								this.update();
+							}
 						}
 					}
 					
@@ -99,7 +116,7 @@
 				
 				
 				eu.checaColisao();
-				//eu.checaDestino();
+				eu.checaDestino();
 				//eu.update();
 				
 				desenha();
@@ -113,7 +130,7 @@
 				pY = e.pageY - this.offsetTop;
 				eu.setaDestinoX(pX);
 				eu.setaDestinoY(pY);
-				
+				eu.mover = 1;
 			}
 			
 	 	}
