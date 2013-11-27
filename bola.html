@@ -20,9 +20,8 @@
 						this.vX = vX;
 						this.vY = vY;
 						this.r = r;
-						this.dX = x;
-						this.dY = y;
-						this.mover = 0;
+						this.dX = 0;
+						this.dY = 0;
 						
 						this.update = function(){
 							this.x += this.vX;
@@ -52,7 +51,7 @@
 						}
 						
 						this.checaDestino = function(){
-			
+							
 							
 						}
 					}
@@ -96,7 +95,7 @@
 				
 				eu.checaColisao();
 				//eu.checaDestino();
-				eu.update();
+				//eu.update();
 				
 				desenha();
 				setTimeout(animate,30);
@@ -109,7 +108,7 @@
 				pY = e.pageY - this.offsetTop;
 				eu.setaDestinoX(pX);
 				eu.setaDestinoY(pY);
-				eu.mover = 1;
+				
 			}
 			
 	 	}
