@@ -147,7 +147,7 @@
 				
 				contexto.beginPath();
 				contexto.fillStyle = "#FF7F50";
-				contexto.fillRect(destino.x,destino.y,10,10);
+				contexto.fillRect(destino.x,destino.y,destino.w,destino.h);
 				contexto.fill();
 			}
 			
@@ -159,7 +159,7 @@
 				eu.checaColisao();
 				eu.checaDestino();
 				//eu.update();
-				
+				colidiu();
 				desenha();
 				setTimeout(animate,30);
 			}
@@ -179,8 +179,15 @@
 			}
 			
 			function colidiu(){
-				for(var i = 0;i+1<bola.length;i++){
+				for(var i = 0;i+1<bolas.length;i++){
+					var j = i+1;
+					var anterior = bolas[i];
+					var proximo = bolas[j];
 					
+					if( ( (bolas[i].x + bolas[i].r) > bolas[j].x && (bolas[i].x + bolas[i].r) < (bolas[j].r + bolas[j].x) ) && ( (bolas[i].y + bolas[i].r) > bolas[j].y && (bolas[i].y + bolas[i].r) < (bolas[j].r + bolas[j].y) ) ){
+						alert("colidiram");
+					}
+		
 				}
 			}
 	 	}
