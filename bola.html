@@ -14,7 +14,6 @@
 				var elemento = document.getElementById("cont");
 				var contexto = elemento.getContext("2d");
 				if(contexto){
-					
 					var Destino = function(x,y){
 						this.x = x;
 						this.y = y;
@@ -67,6 +66,18 @@
 
 						this.setaDestinoY = function(y){
 							this.dY = y;
+						}
+						
+						this.moveAuto = function(){
+							var x = retornaParImpar();
+							if(x == true){
+								this.vX *= -1;
+								this.sX = -this.sX;
+							}else{
+								this.vY *= -1;
+								this.sY = -this.sY;
+							}
+							//this.update();
 						}
 						
 						this.checaDestino = function(){
@@ -150,12 +161,13 @@
 				contexto.fillRect(destino.x,destino.y,destino.w,destino.h);
 				contexto.fill();
 			}
-			
+
 			function animate(){
+				//setTimeout(bola.moveAuto(),2000);
+
 				bola.checaColisao();
 				bola.update();
-				
-				
+
 				eu.checaColisao();
 				eu.checaDestino();
 				//eu.update();
@@ -189,6 +201,14 @@
 					}
 		
 				}
+			}
+			
+			function retornaParImpar(){
+				var um;
+				var check;
+				um = Math.floor( (Math.random()*6) + 1 );
+				check = (um % 2 == 0?true:false);
+				return check;
 			}
 	 	}
 	</script>
