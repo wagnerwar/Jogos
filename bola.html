@@ -5,140 +5,132 @@
 	<title>Exemplo com bola em movimento</title>
 	<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 	<script type="text/javascript">
-		/*Logo quando a página é carregada, é executada a função abaixo*/
 		window.onload =  function(){
-				/*
-					Inicialmente, é feita uma instanciação do objeto contexto, que é responsável pela animação em CANVAS
-				*/
-				
-				var elemento = document.getElementById("cont");
-				var contexto = elemento.getContext("2d");
-				if(contexto){
-					var Destino = function(x,y){
-						this.x = x;
-						this.y = y;
-						this.w = 10;
-						this.h = 10;
-						
-						this.update = function(x,y){
-							this.x = x;
-							this.y = y;
-						}
+			var elemento = document.getElementById("cont");
+			var contexto = elemento.getContext("2d");
+			if(contexto){
+				var Destino = function(x,y){
+				this.x = x;
+				this.y = y;
+				this.w = 10;
+				this.h = 10;
+				this.update = function(x,y){
+					this.x = x;
+					this.y = y;
 					}
-					var Bola = function(x,y,r,vX,vY){
-						this.x = x;
-						this.y = y;
-						this.vX = vX;
-						this.vY = vY;
-						this.r = r;
-						this.dX = 0;
-						this.dY = 0;
-						this.mover = 0;
-						this.sX = 1;
-						this.sY = 1;
+				}
+				var Bola = function(x,y,r,vX,vY){
+					this.x = x;
+					this.y = y;
+					this.vX = vX;
+					this.vY = vY;
+					this.r = r;
+					this.dX = 0;
+					this.dY = 0;
+					this.mover = 0;
+					this.sX = 1;
+					this.sY = 1;
 						
-						this.update = function(){
-							this.x += this.vX;
-							this.y += this.vY;
-						};
+					this.update = function(){
+						this.x += this.vX;
+						this.y += this.vY;
+					};
 						
-						this.checaColisao = function(){
-							if((this.x + this.r) >= larguraTela){
-								this.vX *= -1;
-								this.sX = -this.sX;
-							}else if((this.x - this.r) < 0){
-								this.vX *= -1;
-								this.sX = -this.sX;
-							}
-							if((this.y + this.r) >= alturaTela){
-								this.vY *= -1;
-								this.sY = -this.sY;
-							}else if((this.y - this.r) < 0){
-								this.vY *= -1;
-								this.sY = -this.sY;
-							}	
+					this.checaColisao = function(){
+						if((this.x + this.r) >= larguraTela){
+							this.vX *= -1;
+							this.sX = -this.sX;
+						}else if((this.x - this.r) < 0){
+							this.vX *= -1;
+							this.sX = -this.sX;
 						}
+						if((this.y + this.r) >= alturaTela){
+							this.vY *= -1;
+							this.sY = -this.sY;
+						}else if((this.y - this.r) < 0){
+							this.vY *= -1;
+							this.sY = -this.sY;
+						}	
+					}
 						
-						this.setaDestinoX = function(x){
-							this.dX = x;
-						}
+					this.setaDestinoX = function(x){
+						this.dX = x;
+					}
 						
 
-						this.setaDestinoY = function(y){
-							this.dY = y;
-						}
+					this.setaDestinoY = function(y){
+						this.dY = y;
+					}
 						
-						this.moveAuto = function(){
-							var x = retornaParImpar();
-							if(x == true){
-								this.vX *= -1;
-								this.sX = -this.sX;
-							}else{
-								this.vY *= -1;
-								this.sY = -this.sY;
-							}
-							//this.update();
+					this.moveAuto = function(){
+						var x = retornaParImpar();
+						if(x == true){
+							this.vX *= -1;
+							this.sX = -this.sX;
+						}else{
+							this.vY *= -1;
+							this.sY = -this.sY;
 						}
+					}
 						
-						this.checaDestino = function(){
-							if(this.mover == 1)
-							{
+					this.checaDestino = function(){
+						if(this.mover == 1){
 								/*Tratando linha horizontal*/
-								if(this.sX == 1){
-									if(this.x > this.dX){
-										this.sX = -this.sX;
-										this.vX *= -1;
-									}
-								}else if(this.sX == -1){
-									if(this.x < this.dX){
-										this.sX = -this.sX;
-										this.vX *= -1;
-									}
+							if(this.sX == 1){
+								if(this.x > this.dX){
+									this.sX = -this.sX;
+									this.vX *= -1;
 								}
+							}else if(this.sX == -1){
+								if(this.x < this.dX){
+									this.sX = -this.sX;
+									this.vX *= -1;
+								}
+							}
 								
 								/*Tratando linha vertical*/
-								if(this.sY == 1){
-									if(this.y > this.dY){
-										this.sY = -this.sY;
-										this.vY *= -1;
-									}
-								}else if(this.sY == -1){
-									if(this.y < this.dY){
-										this.sY = -this.sY;
-										this.vY *= -1;
-									}
+							if(this.sY == 1){
+								if(this.y > this.dY){
+									this.sY = -this.sY;
+									this.vY *= -1;
 								}
-
-								if(( this.x > (this.dX-this.vX) && this.x < (this.dX + this.vX) ) && ( this.y > (this.dY-this.vY) && this.y < (this.dY + this.vY) )){
-									this.mover = 0;
+							}else if(this.sY == -1){
+								if(this.y < this.dY){
+									this.sY = -this.sY;
+									this.vY *= -1;
 								}
-								this.update();
 							}
+
+							if(( this.x > (this.dX-this.vX) && this.x < (this.dX + this.vX) ) && ( this.y > (this.dY-this.vY) && this.y < (this.dY + this.vY) )){
+								this.mover = 0;
+							}
+							this.update();
 						}
 					}
-					
-					var alturaTela = elemento.height;
-					var larguraTela = elemento.width;
-					var x = Math.floor((Math.random()*larguraTela)+1);	
-					var y = Math.floor((Math.random()*alturaTela)+1);
-					var r = 10;
-					var vX = 5;
-					var vY = 5;
-					var bola = new Bola(x,y,r,vX,vY);
-	
-
-					var eu = new Bola(Math.floor((Math.random()*larguraTela)+1),Math.floor((Math.random()*alturaTela)+1),r,vX,vY);
-					var destino = new Destino(eu.x,eu.y);
-
-					var bolas  = new Array();
-					bolas.push(bola);
-					bolas.push(eu);
-					
-					desenha();
-					animate();
-				}else{
-					console.log("Não funciona de jeito nenhum");
 				}
+					
+				var alturaTela = elemento.height;
+				var larguraTela = elemento.width;
+				var x = Math.floor((Math.random()*larguraTela)+1);	
+				var y = Math.floor((Math.random()*alturaTela)+1);
+				var r = 10;
+				var vX = 5;
+				var vY = 5;
+				var bola = new Bola(x,y,r,vX,vY);
+				var eu = new Bola(Math.floor((Math.random()*larguraTela)+1),Math.floor((Math.random()*alturaTela)+1),r,vX,vY);
+				var destino = new Destino(eu.x,eu.y);
+				var bolas  = new Array();
+				bolas.push(bola);
+				bolas.push(eu);
+
+				setInterval(function(){ bola.moveAuto(); },2000);
+
+				desenha();
+					
+				animate();
+			}else{
+				console.log("Não funciona de jeito nenhum");
+			}
 			
 			function desenha(){
 				contexto.clearRect(0,0,larguraTela,alturaTela);
@@ -163,8 +155,6 @@
 			}
 
 			function animate(){
-				//setTimeout(bola.moveAuto(),2000);
-
 				bola.checaColisao();
 				bola.update();
 
@@ -173,6 +163,7 @@
 				//eu.update();
 				colidiu();
 				desenha();
+	
 				setTimeout(animate,30);
 			}
 			
@@ -196,8 +187,9 @@
 					var anterior = bolas[i];
 					var proximo = bolas[j];
 					
-					if( ( (bolas[i].x + bolas[i].r) > bolas[j].x && (bolas[i].x + bolas[i].r) < (bolas[j].r + bolas[j].x) ) && ( (bolas[i].y + bolas[i].r) > bolas[j].y && (bolas[i].y + bolas[i].r) < (bolas[j].r + bolas[j].y) ) ){
-						alert("colidiram");
+					if( ( (bolas[i].x + 2*bolas[i].r) > bolas[j].x && (bolas[i].x + 2*bolas[i].r) < (2*bolas[j].r + bolas[j].x) ) && ( (bolas[i].y + 2*bolas[i].r) > bolas[j].y && (bolas[i].y + 2*bolas[i].r) < (2*bolas[j].r + bolas[j].y) ) ){
+						alert("Parabéns! Voçê coseguiu!!");
+						location.href = "bola.html";
 					}
 		
 				}
