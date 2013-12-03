@@ -187,7 +187,17 @@
 					var anterior = bolas[i];
 					var proximo = bolas[j];
 					
-					if( ( (bolas[i].x + 2*bolas[i].r) > bolas[j].x && (bolas[i].x + 2*bolas[i].r) < (2*bolas[j].r + bolas[j].x) ) && ( (bolas[i].y + 2*bolas[i].r) > bolas[j].y && (bolas[i].y + 2*bolas[i].r) < (2*bolas[j].r + bolas[j].y) ) ){
+					if( (
+							( bolas[i].x + 2*bolas[i].r) > bolas[j].x 
+								&& 
+							(bolas[i].x + 2*bolas[i].r) < (2*bolas[j].r + bolas[j].x) 
+						) && 
+						(
+								(bolas[i].y + 2*bolas[i].r) > bolas[j].y 
+								&& 
+								(bolas[i].y + 2*bolas[i].r) < (2*bolas[j].r + bolas[j].y) 
+						) 
+					){
 						alert("Parabéns! Voçê coseguiu!!");
 						location.href = "bola.html";
 					}
