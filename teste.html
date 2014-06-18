@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang=”en-US”>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
+<title>TESTES</title>
+ <script type="text/javascript">
+	var stage,w,l;
+	var r;
+	var v;
+	var bola;
+	var red
+	var w;
+	var l;
+	
+
+	
+	/* **************************FUNCAO******************* */
+	function constroe(){
+		
+		
+		/*Desenhando primeira bola*/
+		pos = definePosicaoRandomica(w,l);
+		bola.x = pos.x;
+		bola.y = pos.y;
+		
+		pos = definePosicaoRandomica(w,l);
+		red.x = pos.x;
+		red.y = pos.y;
+	}
+	
+	function desenha(){
+
+		bola.graphics.beginFill("blue").drawCircle(0,0,r);
+
+		red.graphics.beginFill("red").drawCircle(0,0,r);
+		
+		stage.addChild(bola);
+		
+		stage.addChild(red);
+		
+	}
+	
+	function init() {
+		w = document.getElementById("demoCanvas").width;
+		l = document.getElementById("demoCanvas").height;
+		stage = new createjs.Stage("demoCanvas");
+		r = 10;
+		v = 5;
+		bola = new createjs.Shape();
+		red = new createjs.Shape();
+
+
+		constroe();
+		desenha();
+		
+		createjs.Ticker.on("tick", tick);
+		
+		//stage.update();
+		document.getElementById("demoCanvas").onclick = function(e){
+			stage.removeAllChildren();
+			desenha();
+			var pX;
+			var pY;
+			pX = e.pageX - this.offsetLeft;
+			pY = e.pageY - this.offsetTop;
+			var es = new createjs.Shape();
+			es.graphics.beginFill('#FF7F50').drawRect(pX,pY,10,10);
+			es.id = "sel";
+			stage.addChild(es);
+		}
+	}
+	
+	function tick(event) {
+	
+		stage.update(event);
+	}
+ 
+	function definePosicaoRandomica(mx,my){
+
+		var saida = {};
+		saida.x = Math.floor((Math.random() * mx) + 1);
+		saida.y = Math.floor((Math.random() * my) + 1);
+		return saida;
+	}
+
+ </script>
+ 
+ <style>
+ 	canvas{
+ 		border: 1px solid #000;
+ 	}
+ </style>
+ 
+</head>
+
+<body onLoad="init();">
+		<canvas id="demoCanvas" width="600" height="600">No suporta</canvas>
+</body>
+ 
+</html>

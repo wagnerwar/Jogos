@@ -110,7 +110,12 @@
 						}
 					}
 				}
-
+				//var h_m = window.innerHeight;
+				var w_m = window.innerWidth;
+				//elemento.height = h_m;
+				elemento.width = w_m;
+				//elemento.style.height = h_m+"px";
+				elemento.style.width = w_m+"px";
 				var alturaTela = elemento.height;
 				var larguraTela = elemento.width;
 				
@@ -202,7 +207,7 @@
 						) 
 					){
 						alert("Parabéns! Voçê coseguiu!!");
-						location.href = "bola.html";
+						location.href = "bolamob.html";
 					}
 		
 				}
@@ -231,7 +236,7 @@
 </head>
 <body>
 	<h1>TESTES</h1>
-	<canvas id = "cont" height="600" width="600" >Seu navegador não suporta canvas</canvas>
+	<canvas id = "cont" height="200" >Seu navegador não suporta canvas</canvas>
 	<footer>
 		<p><strong style="color: #FFF;">Hospedagem em <a href='http://api.hostinger.com.br/redir/3601427'>HOSTINGER</a></strong></p>
 		<p><strong style="color: #FFF;">Desenvolvido por <a href='http://nunes-developer.blogspot.com.br'>Wagner Nunes</a></strong></p>
