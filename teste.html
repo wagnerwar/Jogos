@@ -5,6 +5,11 @@
 <script src="http://code.createjs.com/easeljs-0.7.0.min.js"></script>
 <title>TESTES</title>
  <script type="text/javascript">
+ /*
+ 	REVER:
+ 		1 - Por que ás vezes aparece vários pontos laranjas quando clico em algum lugar. Deveria aparecer apenas um
+ 		2 - Por que quando termina o jogo, o Ticker não é reinicializado
+ */
 	var stage,w,l;
 	var r;
 	var v;
@@ -12,21 +17,25 @@
 	var red
 	var w;
 	var l;
-	
-
+	var es;
+	var saida;
 	
 	/* **************************FUNCAO******************* */
 	function constroe(){
-		
-		
-		/*Desenhando primeira bola*/
 		pos = definePosicaoRandomica(w,l);
 		bola.x = pos.x;
 		bola.y = pos.y;
-		
+		bola.v = 7;
+
 		pos = definePosicaoRandomica(w,l);
 		red.x = pos.x;
 		red.y = pos.y;
+		red.v = 2;
+		
+		pos = definePosicaoRandomica(w,l);
+		saida.x = pos.x;
+		saida.y = pos.y;
+		
 	}
 	
 	function desenha(){
@@ -35,9 +44,18 @@
 
 		red.graphics.beginFill("red").drawCircle(0,0,r);
 		
+		es.graphics.beginFill('#FF7F50').drawRect(es.x,es.y,10,10);
+		
 		stage.addChild(bola);
 		
 		stage.addChild(red);
+		
+		stage.addChild(es);
+		
+		if(saida.ex == true){
+			saida.graphics.beginFill("#000000").drawCircle(0,0,20,20);
+			stage.addChild(saida);
+		}
 		
 	}
 	
@@ -46,34 +64,89 @@
 		l = document.getElementById("demoCanvas").height;
 		stage = new createjs.Stage("demoCanvas");
 		r = 10;
-		v = 5;
 		bola = new createjs.Shape();
 		red = new createjs.Shape();
-
-
+		es = new createjs.Shape();
+		saida = new createjs.Shape();
+		saida.ex = false;
+		
 		constroe();
+		
 		desenha();
+
+		createjs.Ticker.init();
+
 		
 		createjs.Ticker.on("tick", tick);
 		
+		
+		createjs.Ticker.setFPS(20);
+		
 		//stage.update();
 		document.getElementById("demoCanvas").onclick = function(e){
-			stage.removeAllChildren();
-			desenha();
-			var pX;
-			var pY;
-			pX = e.pageX - this.offsetLeft;
-			pY = e.pageY - this.offsetTop;
-			var es = new createjs.Shape();
-			es.graphics.beginFill('#FF7F50').drawRect(pX,pY,10,10);
-			es.id = "sel";
-			stage.addChild(es);
+			handleClique(e);
 		}
 	}
 	
 	function tick(event) {
-	
+		console.log("TEMPO: " + createjs.Ticker.getTime());
+		
+		if(checaColisao(es,bola) === true && bola.x == es.x && bola.y == es.y){
+			// Quadrado laranja some, e bola azul fica no lugar
+			
+		}else{
+			// Bola azul segue bola laranja
+			perseguicao(bola,es);
+
+		}
+		
+		if(checaColisao(bola,red) === true || ( (bola.x > red.x - r ) && (bola.x < red.x + r ) && (bola.y > red.y - r) && (bola.y < red.y + r) ) ){
+			// Quadrado laranja some, e bola azul fica no lugar
+			alert("GAME OVER");
+
+			createjs.Ticker.reset();
+			
+
+			// Rever como reexecutar o ticker
+			init();
+		}else{
+			// Bola azul segue bola laranja
+			perseguicao(red, bola);
+
+		}
+		
+		// Aumentando velocidade do vilão
+		
+		if(createjs.Ticker.getTime() > 10000){
+			console.log("INCREMENTANDO");
+			red.v += 0.02;
+			saida.ex = true;
+			
+			if(checaColisao(saida,bola) || ( (bola.x > saida.x - 20 ) && (bola.x < saida.x + 20 ) && (bola.y > saida.y - 20) && (bola.y < saida.y + 20) )){
+				alert("VOCE ESCAPOU");
+				createjs.Ticker.reset();
+				// Rever como reexecutar o ticker
+				init();
+			}
+		}
+		
 		stage.update(event);
+	}
+	
+	function handleClique(e){
+		es.x = 0;
+		es.y = 0;
+		
+		var pX;
+		var pY;
+		pX = e.pageX - document.getElementById("demoCanvas").offsetLeft;
+		pY = e.pageY - document.getElementById("demoCanvas").offsetTop;
+		es.x = pX;
+		es.y = pY;
+		
+		stage.removeAllChildren();
+
+		desenha();
 	}
  
 	function definePosicaoRandomica(mx,my){
@@ -84,11 +157,44 @@
 		return saida;
 	}
 
+	function checaColisao(obj1,obj2){
+		if(obj1.hitTest(obj2.x,obj2.y)){
+			//console.log("FOI");
+			return true
+		}else{
+			//console.log("NAO FOI");
+			return false;
+		}
+	}
+	
+	function perseguicao(obj1,obj2){
+		// Animação de perseguição
+		if(obj1.x < obj2.x){
+			obj1.x += obj1.v;
+		}else if(obj1.x > obj2.x){
+			obj1.x -= obj1.v;
+		}
+		
+		if(obj1.y < obj2.y){
+			obj1.y += obj1.v;
+		}else if(obj1.y > obj2.y){
+			obj1.y -= obj1.v;
+		}
+		
+		if(obj1.x >= w){
+			obj1.x -= obj1.v;	
+		}else if(obj1.y >= l){
+			obj1.y -= obj1.v;
+		}	
+	}
+	
  </script>
  
  <style>
  	canvas{
  		border: 1px solid #000;
+ 		width: 600px;
+ 		height: 600px;
  	}
  </style>
  
