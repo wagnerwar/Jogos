@@ -6,7 +6,7 @@
 <title>TESTES</title>
  <script type="text/javascript">
  /*
- 	REVER:
+ 	PONTOS A SEREM REVISTOS:
  		1 - Por que ás vezes aparece vários pontos laranjas quando clico em algum lugar. Deveria aparecer apenas um
  		2 - Por que quando termina o jogo, o Ticker não é reinicializado
  */
@@ -69,7 +69,8 @@
 		es = new createjs.Shape();
 		saida = new createjs.Shape();
 		saida.ex = false;
-		
+        var is_touch_device = 'ontouchstart' in document.documentElement;
+	
 		constroe();
 		
 		desenha();
@@ -82,14 +83,34 @@
 		
 		createjs.Ticker.setFPS(20);
 		
-		//stage.update();
-		document.getElementById("demoCanvas").onclick = function(e){
-			handleClique(e);
+		if(is_touch_device === true){
+			document.getElementById("demoCanvas").addEventListener("touchstart",handleTouch,false);
+		}else{
+			document.getElementById("demoCanvas").onclick = function(e){
+				handleClique(e);
+			}
 		}
 	}
 	
+	function handleTouch(e){
+		
+		es.x = 0;
+		es.y = 0;
+		var coords = getCoordsTouch(e);
+		es.x = coords.x;
+		es.y = coords.y;
+
+	}
+	
+	function getCoordsTouch(event){
+		var saida = {};
+		saida.x = event.targetTouches[0].pageX - document.getElementById("demoCanvas").offsetLeft;
+		saida.y = event.targetTouches[0].pageY - document.getElementById("demoCanvas").offsetTop;
+		
+		return saida;
+	}
+	
 	function tick(event) {
-		console.log("TEMPO: " + createjs.Ticker.getTime());
 		
 		if(checaColisao(es,bola) === true && bola.x == es.x && bola.y == es.y){
 			// Quadrado laranja some, e bola azul fica no lugar
@@ -110,7 +131,7 @@
 			// Rever como reexecutar o ticker
 			init();
 		}else{
-			// Bola azul segue bola laranja
+			// Bola vermelha segue bola azul
 			perseguicao(red, bola);
 
 		}
@@ -120,6 +141,8 @@
 		if(createjs.Ticker.getTime() > 10000){
 			console.log("INCREMENTANDO");
 			red.v += 0.02;
+			
+			// Fazendo aparecer bola preta
 			saida.ex = true;
 			
 			if(checaColisao(saida,bola) || ( (bola.x > saida.x - 20 ) && (bola.x < saida.x + 20 ) && (bola.y > saida.y - 20) && (bola.y < saida.y + 20) )){
@@ -130,6 +153,10 @@
 			}
 		}
 		
+		stage.removeAllChildren();
+
+		desenha();
+
 		stage.update(event);
 	}
 	
@@ -143,10 +170,7 @@
 		pY = e.pageY - document.getElementById("demoCanvas").offsetTop;
 		es.x = pX;
 		es.y = pY;
-		
-		stage.removeAllChildren();
 
-		desenha();
 	}
  
 	function definePosicaoRandomica(mx,my){
